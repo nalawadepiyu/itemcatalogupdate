@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-md-4">
+
+            <h1>Catalog App<h1>
+        <h2>Categories</h2>
+
+        {% for i in categories %}
+        <div>
+            <a href='{{url_for('categoryMenu', category_id = i.id) }}'>{{i.name}}</a>
+            <br>
+        </div>
+        {% endfor %}
+
+      </ul>
+    </div>
+        <div class="col-md-4">
+
+      <h1>Latest Items</h1>
+            <div>
+                <ul>
+
+                    {% for i in latestitems %}
+
+                    <li>
+                        <a href='{{url_for(' itemsMenu ' , item_id = i.id, category_id = i.category_id) }}'>{{i.title}} </a>
+                    </li>
+                    {% endfor %}
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% if 'username' not in login_session %}
+            <p>
+                <a href="{{ url_for('showLogin')}}"> Login </a>
+            </p>
+            {% else %}
+            <br>
+            <a href="{{ url_for('gdisconnect')}}"> Logout </a> {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>

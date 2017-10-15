@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="//apis.google.com/js/platform.js?onload=start"></script>
+</head>
+
+<body>
+    <div id="signInButton">
+        <span class="g-signin" data-scope="openid email" data-clientid="749979045132-nkqmgh5oehvgbkbq9e58j94kpper4hs6.apps.googleusercontent.com" data-redirecturi="postmessage" data-accesstype="offline" data-cookiepolicy="single_host_origin" data-callback="signInCallback" data-approvalprompt="force">
+         </span>
+    </div>
+    <div id="data"></div>
+    <script>
+        function signInCallback(auth) {
+            if (auth['code']) {
+                $('#signinButton').attr('style', 'display: none');
+                $.ajax({
+                    type: 'POST',
+                    url: '/gconnect?state={{STATE}}',
+                    processData: false,
+                    data: auth['code'],
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function(success) {
+                        if (success) {
+                            $('#data').html('Login Successful!</br>' + success + '</br>Redirecting...')
+                            setTimeout(function() {
+                                window.location.href = "/home";
+                            }, 4000);
+                        } else if (auth['error']) {
+                            console.log('There was an error: ' + auth['error']);
+                        } else {
+                            $('#data').html('Check configuration and console.');
+                        }
+                    }
+
+                });
+            }
+        }
+    </script>
+</body>
